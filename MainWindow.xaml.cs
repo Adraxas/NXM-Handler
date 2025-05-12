@@ -49,7 +49,6 @@ namespace NXM_Handler
 
         private void Scale()
         {
-
             Main_Window.Height = Scalar.Wheight * Scalar.Mult;
             Main_Window.Width = Scalar.Wwidth * Scalar.Mult;
             Row_1.Height = new GridLength(Scalar.R1 * Scalar.Mult, GridUnitType.Star);

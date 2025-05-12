@@ -13,17 +13,18 @@ namespace NXM_Handler
             var game = NXMParse().Matches(url);
             if (game[0] is null)
             {
-                //log instead of throw?
+                //TODDO: log instead of throw?
                 throw new ArgumentNullException($"{url} is not a valid NXM URL");
             }
             else if (Storage.Store!.MMAssociations.TryGetValue(game[0].Value, out MMAssociation mmassoc))
             {
-                var MMArgs = $"{Storage.Store.ModManagers[mmassoc.MM].Path} {mmassoc.SpecialArgs.pre} {url} {mmassoc.SpecialArgs.post}";
+                var MMArgs = $"{Storage.Store.ModManagers[mmassoc.MMName].Path} {mmassoc.SpecialArgs.pre} {url} {mmassoc.SpecialArgs.post}";
                 CallModManager(MMArgs);
             }
-            else 
+            else
             {
-                Storage.Store.MMAssociations.Add
+                //TODO: Create dialogue box to ask user to associate mod manager and for extra args if needed
+                //Storage.AddNewGameAssoc(new MMAssociation(game[0].Value, ref Storage.Store.ModManagers[modManager], (pre, post)));
             }
         }
 
@@ -64,7 +65,7 @@ namespace NXM_Handler
                 key.SetValue("URL Protocol", "nxm");
                 key.CreateSubKey(@"shell\open\command").SetValue("", "\"" + applicationPath + "\" \"%1\"");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //TODO: Replace with own logging
                 //Program.helper.Log($"Failed to associate NXM Handler with the NXM protocol: {ex}");
@@ -97,7 +98,7 @@ namespace NXM_Handler
                     return false;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //TODO: Replace with own logging
                 //Program.helper.Log($"Failed to modify registry keys to associate NXM Handler with the NXM protocol: {ex}");

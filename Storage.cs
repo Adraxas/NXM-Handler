@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using ProtoBuf.WellKnownTypes;
+using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -50,15 +51,10 @@ namespace NXM_Handler
             w.Write(json);
         }
     }
-    internal readonly record struct ModManager(string Name, string Path);
-    internal readonly struct MMAssociation(string NXString, ref ModManager MM, (string pre, string post) SpecialArgs = default)
+    internal readonly record struct ModManager(string Name, string Path, string MMArgs = "");
+    internal readonly record struct MMAssociation(string NXString, string MMName, (string? pre , string? post) SpecialArgs = default)
     {
-        [JsonInclude]
-        public readonly string NXString = NXString;
-        [JsonInclude]
-        public readonly string MM = MM.Path;
-        [JsonInclude]
-        public readonly (string pre, string post) SpecialArgs = SpecialArgs;
+        public readonly (string pre, string post) SpecialArgs = (SpecialArgs.pre ?? "", SpecialArgs.post ?? "");
     }
     internal sealed record DataStore(Dictionary<string, ModManager> ModManagers, Dictionary<string, MMAssociation> MMAssociations);
     internal static class Settings

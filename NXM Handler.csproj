@@ -9,7 +9,7 @@
     <UseWPF>true</UseWPF>
     <PlatformTarget>x64</PlatformTarget>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-    <PackageLicenseExpression>  GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
