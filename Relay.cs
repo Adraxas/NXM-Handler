@@ -1,6 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿using Microsoft.Win32;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using Microsoft.Win32;
 
 namespace NXM_Handler
 {

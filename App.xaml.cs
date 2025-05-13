@@ -1,6 +1,4 @@
 ﻿using SingleInstanceCore;
-using System.Configuration;
-using System.Data;
 using System.Windows;
 
 namespace NXM_Handler
