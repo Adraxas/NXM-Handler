@@ -1,0 +1,40 @@
+﻿<Window x:Class="NXM_Handler.AddMMWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NXM_Handler"
+        mc:Ignorable="d"
+        Title="Add New Mod Manager" Height="150" Width="300">
+    <Window.Resources>
+        <ControlTemplate TargetType="TextBox" x:Key="inputBox">
+            <Grid>
+                <TextBox Text="{Binding Text, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Text="Err if shown"
+                   Margin="5,0,5,0"
+                   Foreground="#FF808080"
+                   FontStyle="Italic"
+                   IsHitTestVisible="False"
+                   x:Name="UserMessage"
+                   Visibility="Hidden"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="Text" Value=""/>
+                        <Condition Property="IsKeyboardFocusWithin" Value="False"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Visibility" TargetName="UserMessage" Value="Visible"/>
+                </MultiTrigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Resources>
+    <Grid Name="MainGrid">
+        <TextBox x:Name="MMName" Template="{StaticResource inputBox}" Height="20" Width="150" Margin="75,19,75,95"></TextBox>
+        <TextBox x:Name="MMPath" Template="{StaticResource inputBox}" Height="20" Width="220" Margin="25,57,55,57"></TextBox>
+        <Button x:Name="SelectPathButton" Height="20" Width="20" Margin="255,57,25,57" ClickMode="Press" Click="SelectPathButton_Click">📁</Button>
+        <Button x:Name="AcceptButton" Height="17" Width="60" Margin="120,107,120,10" ClickMode="Press" Click="AcceptButton_Click">Add</Button>
+    </Grid>
+</Window>
