@@ -8,9 +8,8 @@ namespace NXM_Handler
     {
         public AddMMWindow()
         {
-            ((TextBlock)MainGrid.Children[MainGrid.Children.IndexOf(MMName) + 1]).Text = "Mod Manager Name (Leave blank for executable name)";
-            ((TextBlock)MainGrid.Children[MainGrid.Children.IndexOf(MMPath) + 1]).Text = "Path to executable";
             InitializeComponent();
+            ShowDialog();
         }
         private void SelectPathButton_Click(object sender, RoutedEventArgs e)
         {
@@ -18,11 +17,13 @@ namespace NXM_Handler
             {
                 DefaultExt = "exe"
             };
+            dialog.ShowDialog();
             MMPath.Text = dialog.FileName;
         }
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
             Storage.AddNewModManager(new ModManager(MMName.Text, MMPath.Text));
+            Close();
         }
     }
 }
