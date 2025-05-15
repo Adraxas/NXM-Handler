@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace NXM_Handler
 {
@@ -10,14 +11,27 @@ namespace NXM_Handler
         public MMAssocWindow(string game)
         {
             Game = game;
-            Title = $"Select Mod Manager for {game}";
-            ((TextBlock)MainGrid.Children[MainGrid.Children.IndexOf(prefixArgs) + 1]).Text = "Prefix Args";
-            ((TextBlock)MainGrid.Children[MainGrid.Children.IndexOf(postfixArgs) + 1]).Text = "Postfix Args";
             InitializeComponent();
+            TitleBar.Text = $"Select Mod Manager for {game}";
+            ShowDialog();
         }
         private void SelectButton_Click(object sender, RoutedEventArgs e)
         {
-            Storage.AddNewGameAssoc(new(Game, Storage.Store!.ModManagers[MMDropdown.Text].Path, (prefixArgs.Text, postfixArgs.Text)));
+            if (MMDropdown.Text == "Add new game...")
+            {
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    var _ = new AddMMWindow();
+                });
+                //This is probably the wrong way to do this
+                var DropdownData = MMDropdown.ItemsSource as MMList;
+                DropdownData?.Update();
+            }
+            else
+            {
+                Storage.AddNewGameAssoc(new(Game, MMDropdown.Text, (prefixArgs.Text, postfixArgs.Text)));
+                Close();
+            }
         }
     }
     internal class MMList : ObservableCollection<string>
@@ -33,6 +47,7 @@ namespace NXM_Handler
             {
                 Add(mm.Value.Name);
             }
+            Add("Add new game...");
         }
     }
 }
