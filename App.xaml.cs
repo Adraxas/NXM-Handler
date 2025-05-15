@@ -13,7 +13,7 @@ namespace NXM_Handler
             // What to do with the args another instance has sent
             if (args.Length > 0)
             {
-                Relay.RelayURL(args[0]);
+                Relay.RelayURL(args[1]);
             }
         }
         private void Application_Startup(object sender, StartupEventArgs e)
@@ -29,7 +29,7 @@ namespace NXM_Handler
             Relay.RegisterNXM();
             if (e.Args.Length > 0)
             {
-                Relay.RelayURL(e.Args[0]);
+                Relay.RelayURL(e.Args[1]);
             }
         }
         private void Application_Exit(object sender, ExitEventArgs e)
