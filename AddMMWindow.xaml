@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NXM_Handler"
         mc:Ignorable="d"
-        Title="Add New Mod Manager" Height="200" Width="350">
+        Title="Add New Mod Manager" Height="200" Width="350"
+        Icon="/assets/icon.ico">
     <Window.Resources>
         <ControlTemplate TargetType="TextBox" x:Key="NameInputBox">
             <Grid>

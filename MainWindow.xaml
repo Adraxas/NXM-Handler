@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NXM_Handler"
         mc:Ignorable="d"
-        Title="MainWindow" Height="900" Width="300" Name="Main_Window">
+        Title="MainWindow" Height="900" Width="300" Name="Main_Window"
+        Icon="/assets/icon.ico">
     <Window.Resources>
         <ControlTemplate x:Key="gearbutton" TargetType="Button">
             <Grid>
