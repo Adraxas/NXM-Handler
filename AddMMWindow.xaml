@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:NXM_Handler"
         mc:Ignorable="d"
         Title="Add New Mod Manager" Height="200" Width="350"
-        Icon="/assets/icon.ico">
+        Icon="/assets/icon.ico"
+        WindowStyle="ToolWindow"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ControlTemplate TargetType="TextBox" x:Key="NameInputBox">
             <Grid>

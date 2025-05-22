@@ -7,7 +7,9 @@
         d:DataContext="{d:DesignInstance Type=local:MMList}"
         mc:Ignorable="d"
         Height="200" Width="250"
-        Icon="/assets/icon.ico">
+        Icon="/assets/icon.ico"
+        WindowStyle="ToolWindow"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ControlTemplate TargetType="TextBox" x:Key="inputBoxPre">
             <Grid>
