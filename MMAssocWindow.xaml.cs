@@ -1,7 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 
 namespace NXM_Handler
 {
@@ -23,7 +21,7 @@ namespace NXM_Handler
                 {
                     var _ = new AddMMWindow();
                 });
-                //This is probably the wrong way to do this
+                //This is probably the wrong way to do this, but it works
                 var DropdownData = MMDropdown.ItemsSource as MMList;
                 DropdownData?.Update();
             }
