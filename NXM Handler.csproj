@@ -11,6 +11,7 @@
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+    <ApplicationIcon>assets\icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -26,6 +27,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Resource Include="assets\icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
     <PackageReference Include="SingleInstanceCore" Version="2.2.2" />
   </ItemGroup>
 
