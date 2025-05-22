@@ -10,11 +10,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/assets/gear-icon.xaml"/>
-                <ResourceDictionary>
-                    <tb:TaskbarIcon x:Key="TrayIcon"
-                        IconSource="/assets/icon.ico"
-                        ToolTipText="NXM Handler" />
-                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

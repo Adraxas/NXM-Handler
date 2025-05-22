@@ -9,7 +9,6 @@ namespace NXM_Handler
     /// </summary>
     public partial class App : Application, ISingleInstance
     {
-        private TaskbarIcon? tb;
         public void OnInstanceInvoked(string[] args)
         {
             // What to do with the args another instance has sent
@@ -28,7 +27,6 @@ namespace NXM_Handler
                 //You may shut down the current instance
                 Current.Shutdown();
             }
-            tb = (TaskbarIcon)FindResource("TrayIcon");
             Relay.RegisterNXM();
             if (e.Args.Length > 0)
             {
