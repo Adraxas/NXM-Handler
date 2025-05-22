@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.IO;
+using System.Diagnostics;
 
 namespace NXM_Handler
 {
@@ -10,36 +12,58 @@ namespace NXM_Handler
         [GeneratedRegex("nxm://(.*?)/mods/[0-9]*/files/[0-9]*")]
         private static partial Regex NXMParse();
         internal static void RelayURL(string url) {
-            var game = NXMParse().Matches(url);
-            if (game[0] is null)
+            var game = NXMParse().Matches(url)[0].Groups[1].Value;
+            if (game is null)
             {
-                //TODDO: log instead of throw?
+                //TODO: log instead of throw?
                 throw new ArgumentNullException($"{url} is not a valid NXM URL");
             }
-            else if (Storage.Store!.MMAssociations.TryGetValue(game[0].Value, out MMAssociation mmassoc))
+            else if (Storage.Store!.MMAssociations.TryGetValue(game, out MMAssociation mmassoc))
             {
                 var MMArgs = $"{Storage.Store.ModManagers[mmassoc.MMName].Path} {mmassoc.SpecialArgs.pre} {url} {mmassoc.SpecialArgs.post}";
-                CallModManager(MMArgs);
+                CallModManager(game, MMArgs);
             }
             else
             {
-                //TODO: Create dialogue box to ask user to associate mod manager and for extra args if needed
-                //Storage.AddNewGameAssoc(new MMAssociation(game[0].Value, ref Storage.Store.ModManagers[modManager], (pre, post)));
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    var _ = new MMAssocWindow(game);
+                });
+                Relay.RelayURL(url);
             }
         }
-
         internal static bool RegisterNXM()
         {
-            if (!NXMProtocol.Validate() || !NXMProtocol.Register())
+            if (!NXMProtocol.Register() || !NXMProtocol.Validate())
             {
                 //TODO: Log error and inform user
                 return false;
             }
             return true;
         }
-        private static void CallModManager(string MMArgs)
+        private static void CallModManager(string game, string MMArgs)
         {
-
+            var fullPath = Storage.Store!.ModManagers[Storage.Store!.MMAssociations[game].MMName].Path;
+            string path = Path.GetDirectoryName(fullPath) ?? string.Empty;
+            if (string.IsNullOrEmpty(path))
+            {
+                //TODO: Log invalid path and exit function
+                return;
+            }
+            else
+            {
+                using var cmd = new Process();
+                cmd.StartInfo = new ProcessStartInfo
+                {
+                    FileName = "cmd.exe",
+                    UseShellExecute = false,
+                    WorkingDirectory = path,
+                    CreateNoWindow = true,
+                    ArgumentList = { "/C", MMArgs }
+                };
+                cmd.Start();
+                cmd.Close();
+            }
         }
     }
     //Modified from Stardrop Mod Manager https://github.com/Floogen/Stardrop/blob/development/Stardrop/Utilities/NXMProtocol.cs
