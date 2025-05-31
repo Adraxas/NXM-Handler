@@ -15,8 +15,8 @@ namespace NXM_Handler
             var game = NXMParse().Matches(url)[0].Groups[1].Value;
             if (game is null)
             {
-                //TODO: log instead of throw?
-                throw new ArgumentNullException($"{url} is not a valid NXM URL");
+                Logger.Error.Log($"ERROR: {url} is not a valid NXM URL");
+                //throw new ArgumentNullException($"{url} is not a valid NXM URL");
             }
             else if (Storage.Store!.MMAssociations.TryGetValue(game, out MMAssociation mmassoc))
             {
@@ -32,14 +32,14 @@ namespace NXM_Handler
                 Relay.RelayURL(url);
             }
         }
-        internal static bool RegisterNXM()
+        internal static void RegisterNXM()
         {
             if (!NXMProtocol.Register() || !NXMProtocol.Validate())
             {
-                //TODO: Log error and inform user
-                return false;
+                Logger.Error.Log("CRITICAL: Failed to register or validate NXM protocol association. This program will now exit");
+                App.Current.Shutdown();
+                //TODO: inform user
             }
-            return true;
         }
         private static void CallModManager(string game, string MMArgs)
         {
@@ -47,8 +47,7 @@ namespace NXM_Handler
             string path = Path.GetDirectoryName(fullPath) ?? string.Empty;
             if (string.IsNullOrEmpty(path))
             {
-                //TODO: Log invalid path and exit function
-                return;
+                Logger.Error.Log($"ERROR: {fullPath} is invalid somehow");
             }
             else
             {
@@ -77,8 +76,7 @@ namespace NXM_Handler
             {
                 if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
-                    //TODO:Replace with own logging
-                    //Program.helper.Log($"Attempted to modify registery keys for NXM protocol on a non-Windows system!");
+                    Logger.Debug.Log($"WARN: Attempted to modify registery keys for NXM protocol on a non-Windows system!");
                     return false;
                 }
                 if (applicationPath is null)
@@ -89,10 +87,9 @@ namespace NXM_Handler
                 key.SetValue("URL Protocol", "nxm");
                 key.CreateSubKey(@"shell\open\command").SetValue("", "\"" + applicationPath + "\" \"%1\"");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //TODO: Replace with own logging
-                //Program.helper.Log($"Failed to associate NXM Handler with the NXM protocol: {ex}");
+                Logger.Error.Log($"ERROR: Failed to associate NXM Handler with the NXM protocol: {ex}");
                 return false;
             }
 
@@ -105,8 +102,7 @@ namespace NXM_Handler
             {
                 if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
-                    //TODO: Replace with own logging
-                    //Program.helper.Log($"Attempted to modify registery keys for NXM protocol on a non-Windows system!");
+                    Logger.Debug.Log($"WARN: Attempted to modify registery keys for NXM protocol on a non-Windows system!");
                     return false;
                 }
 
@@ -122,10 +118,9 @@ namespace NXM_Handler
                     return false;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //TODO: Replace with own logging
-                //Program.helper.Log($"Failed to modify registry keys to associate NXM Handler with the NXM protocol: {ex}");
+                Logger.Error.Log($"ERROR: Failed to modify registry keys to associate NXM Handler with the NXM protocol: {ex}");
                 return false;
             }
 

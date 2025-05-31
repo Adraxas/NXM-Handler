@@ -29,7 +29,7 @@ namespace NXM_Handler
             {
                 Store.ModManagers.Remove(modManager.Name);
                 Store.ModManagers.Add(modManager.Name, modManager);
-                //Add logging and/or alert user
+                Logger.Debug.Log($"WARN: ModManager {modManager.Name} already exists, overwriting with new settings");
             }
             string json = JsonSerializer.Serialize(Store);
             using StreamWriter w = new($"{_appdir}\\store\\data.json");
@@ -39,10 +39,8 @@ namespace NXM_Handler
         {
             if (Store!.MMAssociations.TryAdd(MMAssoc.NXString, MMAssoc))
             {
-                Store.MMAssociations.Remove(MMAssoc.NXString);
-                Store.MMAssociations.Add(MMAssoc.NXString, MMAssoc);
-                //Add logging and/or alert user
-                //Shouldn't happen
+                Logger.Error.Log($"ERROR: Association {MMAssoc.NXString} already exists, this should not be possible");
+                //Throw maybe?
             }
             string json = JsonSerializer.Serialize(Store);
             using StreamWriter w = new($"{_appdir}\\store\\data.json");
@@ -57,7 +55,7 @@ namespace NXM_Handler
     internal sealed record DataStore(Dictionary<string, ModManager> ModManagers, Dictionary<string, MMAssociation> MMAssociations);
     internal static class Settings
     {
-        private readonly static string _appdir;
+        internal readonly static string _appdir;
         static Settings() {
             _appdir = Environment.CurrentDirectory;
         }
