@@ -1,5 +1,4 @@
-﻿using Hardcodet.Wpf.TaskbarNotification;
-using SingleInstanceCore;
+﻿using SingleInstanceCore;
 using System.Windows;
 
 namespace NXM_Handler
